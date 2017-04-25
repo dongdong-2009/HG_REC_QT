@@ -33,7 +33,6 @@ private slots:
     void readFrame();
     void handGestureDrawing();
     void sourceImagePreprocessing(Mat original);
-    void on_pushButton_training_clicked();
     void ComputeHandGestureCenterPoint(vector<Point2f> & center);
     void ComputeHandGestureMaxCenterRadius(vector<Point2f> center,float &radius);
     void RecogniseHandGestureSeq(vector<Point2f> &ptArr, float width, float height, string &result);
@@ -44,13 +43,14 @@ private slots:
     void findConvexityDefects(vector<Point>& contour, vector<int>& hull, vector<ConvexityDefect>& convexDefects);
     void init_hand_template(void);
     void hand_template_match(void);
-    void on_pushButton_StartDrawing_clicked();
-    void on_pushButton_ClearDrawing_clicked();
     int RecogniseResult(vector<int> iArray);
     void binary_image_process(Mat src);
     void on_pushButton_startRecognize_clicked();
     void on_pushButton_DirectionRecognize_clicked();
     void handRecogniseResult();
+    void judgeCurrentDrawingColor(Point curPoint);
+    void on_pushButton_ClearDrawing_clicked();
+    void on_pushButton_StartDrawing_clicked();
 private:
     Ui::handGesture *ui;
 
@@ -73,8 +73,8 @@ private:
     vector<Point2f> cornerArray;
     string sCurrentFilepPath;
     vector<Point> approxCurve;
-    HandGestureDBApi *m_pHandDBApi;
-
+    Scalar sColor;
+    vector <DrawPointAttribute> DPA;
     vector< vector<Point> > mContoursTemp;
     vector<int> mResultArray;
     vector< Mat > tempImage;

@@ -79,6 +79,7 @@ using namespace cv;
 #define HANDGESTURE_START_CMD   (1)
 #define HANDGESTURE_INVAILD_CMD    (0)
 #define HANDGESTURE_STOP_CMD    (10)
+#define HANDGESTURE_SUSPEND_CMD    2
 
 #define GESTUREFILE  "features/gesture/gestureFeatureFile.yml";
 #ifdef MP_LOG_DBG
@@ -158,6 +159,12 @@ struct ConvexityDefect
     Point end;
     Point depth_point;
     float depth;
+};
+
+struct DrawPointAttribute
+{
+    Point  point;
+    Scalar color;
 };
 
 /**
