@@ -76,7 +76,9 @@ using namespace cv;
 
 #define DELAY_DISPLAY_INTERVAL 100
 #define TEMPLATE_NUMS   (10)
-#define HANDGESTURE_START_CMD   (1)
+#define HANDGESTURE_START1_CMD   (1)
+#define HANDGESTURE_START2_CMD   (7)
+#define HANDGESTURE_START3_CMD   (2)
 #define HANDGESTURE_INVAILD_CMD    (0)
 #define HANDGESTURE_STOP_CMD    (10)
 #define HANDGESTURE_SUSPEND_CMD    2
@@ -161,7 +163,7 @@ struct ConvexityDefect
     float depth;
 };
 
-struct DrawPointAttribute
+struct DrawPoint
 {
     Point  point;
     Scalar color;

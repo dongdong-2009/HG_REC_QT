@@ -46,7 +46,10 @@ void handGesture::readFrame()
     ui->label_srcScreen->setPixmap(QPixmap::fromImage(scrImage));
 
     sourceImagePreprocessing(original);
+
+
     handGestureDrawing();
+    hand_template_match();
 }
 
 void handGesture::init_hand_template(void)
@@ -57,13 +60,10 @@ void handGesture::init_hand_template(void)
     vector< Vec4i > mHierarchy;
     static const char *tmp_names[TEMPLATE_NUMS] =
     {"1.bmp","2.bmp","3.bmp","4.bmp","5.bmp","6.bmp","7.bmp","8.bmp","9.bmp","10.bmp"};
-    static const char *num_names[TEMPLATE_NUMS] =
-    {"1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.jpg","10.jpg"};
 
     for(int i = 0; i < TEMPLATE_NUMS; i++)
     {
         string imagepath = sCurrentFilepPath + "/images/tempimages/";
-
         cout<<imagepath<<endl;
         srcImage = imread((imagepath+tmp_names[i]).c_str(), IMREAD_GRAYSCALE);
         if(true == srcImage.empty())
@@ -178,27 +178,25 @@ void handGesture::hand_template_match(void)
         mResultArray.clear();
         centerNum =0;
     }
-    handRecogniseResult();
 }
 
 void handGesture::handRecogniseResult()
 {
       PRT_INFO("\n");
-      if(recResult != HANDGESTURE_STOP_CMD && recResult != HANDGESTURE_INVAILD_CMD && recResult != HANDGESTURE_SUSPEND_CMD)
+      if(HANDGESTURE_STOP_CMD == recResult)
       {
-          cout<<"DPA size:"<<DPA.size()<<endl;
-          if(DPA.size() > 2)
+          drawPoint.clear();
+      }
+      else
+      {
+          cout<<"DP size:"<<drawPoint.size()<<endl;
+          if(drawPoint.size() > 2)
           {
-              for(int i =0; i<DPA.size()-1;i++)
+              for(int i =0; i<drawPoint.size()-1;i++)
               {
-                   line(dstImage, DPA[i].point,DPA[i+1].point, DPA[i+1].color, 5, CV_AA);
+                  line(dstImage, drawPoint[i].point,drawPoint[i+1].point, drawPoint[i+1].color, 5, CV_AA);
               }
           }
-      }
-
-      if(recResult == HANDGESTURE_STOP_CMD)
-      {
-           DPA.clear();
       }
 }
 
@@ -234,7 +232,7 @@ void handGesture::handGestureDrawing()
         double contArea = contourArea(contours[i]);
        // if(contArea/imageArea > 0.015) filterContours.push_back(contours[i]);
 
-        if(contArea > 10000) filterContours.push_back(contours[i]);
+        if(contArea > 5000) filterContours.push_back(contours[i]);
     }
     if(filterContours.size() < 0) return;
     dstImage.zeros(frame.size(),CV_8UC3);
@@ -242,41 +240,36 @@ void handGesture::handGestureDrawing()
     vector<Point2f> center(filterContours.size());
     ComputeHandGestureCenterPoint(center);
 
-    //if(EOperation == EDIGITRECOGNIZE)
-   // {
-        hand_template_match();
-    //}
+    rectangle(dstImage,Point(200,0),Point(300,60),Scalar(0,0,255), CV_FILLED, CV_AA,0);
+    rectangle(dstImage,Point(350,0),Point(450,60),Scalar(0,255,0), CV_FILLED, CV_AA,0);
+    rectangle(dstImage,Point(500,0),Point(600,60),Scalar(255,0,0), CV_FILLED, CV_AA,0);
 
-        rectangle(dstImage,Point(200,0),Point(300,60),Scalar(0,0,255), CV_FILLED, CV_AA,0);
-        rectangle(dstImage,Point(350,0),Point(450,60),Scalar(0,255,0), CV_FILLED, CV_AA,0);
-        rectangle(dstImage,Point(500,0),Point(600,60),Scalar(255,0,0), CV_FILLED, CV_AA,0);
+    //via Center Point draw a rect box
+    vector<Rect> boundRect(filterContours.size());
+    for (int i = 0; i < (int)filterContours.size(); i++)
+    {
+        //boundRect[i] = boundingRect(Mat(filterContours[i]));
+        //rectangle(dstImage,boundRect[i].tl(),boundRect[i].br(),Scalar(0,0,255), 2, 8,0);
 
-        //via Center Point draw a rect box
-        vector<Rect> boundRect(filterContours.size());
-        for (int i = 0; i < (int)filterContours.size(); i++)
-        {          
-            //boundRect[i] = boundingRect(Mat(filterContours[i]));
-            //rectangle(dstImage,boundRect[i].tl(),boundRect[i].br(),Scalar(0,0,255), 2, 8,0);
-
-            if(EOperation == EDIRRECOGNIZE)
+        if(EOperation == EDIRRECOGNIZE)
+        {
+            if(centerNum < 8)
             {
-                if(centerNum < 8)
-                {
-                    centerArray.push_back(center[i]);
-                    centerNum++;
-                }
-                else
-                {
-                    string result;
-                    RecogniseHandGestureSeq(centerArray, boundRect[i].width/2, boundRect[i].height/2, result);
-                    cout<<"result:"<<result<<endl;
-                    QString showResult;
-                    showResult.append(result.c_str());
-                    ui->label_result->setText(showResult);
-                    centerArray.clear();
-                    centerNum = 0;
-                }
+                centerArray.push_back(center[i]);
+                centerNum++;
             }
+            else
+            {
+                string result;
+                RecogniseHandGestureSeq(centerArray, boundRect[i].width/2, boundRect[i].height/2, result);
+                cout<<"result:"<<result<<endl;
+                QString showResult;
+                showResult.append(result.c_str());
+                ui->label_result->setText(showResult);
+                centerArray.clear();
+                centerNum = 0;
+            }
+        }
     }
 
     vector<ConvexityDefect> convexDefects;
@@ -284,33 +277,21 @@ void handGesture::handGestureDrawing()
     for (size_t j=0; j<filterContours.size(); j++)
     {
         circle(dstImage, center[j], 8 ,Scalar(255, 0, 0), CV_FILLED);
-        Point pt;
-        pt.x=center[j].x;
-        pt.y=center[j].y-100;
-        circle(dstImage, pt, 8 ,Scalar(255, 0, 0), CV_FILLED);
         convexHull(Mat(filterContours[j]), hullI, false, false);//via filterContours get hull
         findConvexityDefects(filterContours[j], hullI, convexDefects);
         cout<<"size:"<<convexDefects.size()<<endl;
+        Point minPoint=convexDefects[0].start;
         for(int i=0;i<convexDefects.size();i++)
         {
             line(dstImage, convexDefects[i].start, convexDefects[i].end, Scalar(255,0,0), 2, CV_AA);
             //line(dstImage, convexDefects[i].start, convexDefects[i].depth_point, Scalar(0,0,255), 2, CV_AA);
             //line(dstImage, convexDefects[i].depth_point, convexDefects[i].end, Scalar(0,0,255), 2, CV_AA);
             judgeCurrentDrawingColor(convexDefects[i].start);
-            if(i == convexDefects.size()/2)
-            {
-                line(dstImage, convexDefects[0].start, center[j], Scalar(0, 0, 255), 2, CV_AA);
-                //circle(dstImage, convexDefects[i+1].start, 8 ,Scalar(0, 0, 255), CV_FILLED);
-                DrawPointAttribute drawPoint;
-                drawPoint.point=pt;
-                drawPoint.color = sColor;
-                if(recResult != HANDGESTURE_SUSPEND_CMD && recResult != HANDGESTURE_STOP_CMD)
-                    DPA.push_back(drawPoint);
-            }
-
+            if(convexDefects[i].start.y < minPoint.y)  minPoint = convexDefects[i].start;//get hand min point
         }
+        saveFingerTopPoint(minPoint);
     }
-
+    handRecogniseResult();
     //display in screen
     QImage dImage=QImage((const uchar*)dstImage.data,dstImage.cols,dstImage.rows,QImage::Format_RGB888).rgbSwapped();
     if(!dImage.isNull())
@@ -319,6 +300,16 @@ void handGesture::handGestureDrawing()
         ui->label_cvtScreen->setPixmap(QPixmap::fromImage(dImage));
         dstImage.release();
     }
+}
+
+void  handGesture::saveFingerTopPoint(Point minPoint)
+{
+    DrawPoint dPoint;
+    dPoint.point = minPoint;
+    dPoint.color = sColor;
+    if(recResult != HANDGESTURE_STOP_CMD)
+        drawPoint.push_back(dPoint);
+     circle(dstImage, minPoint, 8 ,sColor, CV_FILLED);
 }
 
 void  handGesture::judgeCurrentDrawingColor(Point curPoint)

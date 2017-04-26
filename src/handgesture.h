@@ -13,7 +13,6 @@
 #include <QPalette>
 
 #include "common.h"
-#include "database_api.h"
 
 
 namespace Ui {
@@ -51,6 +50,7 @@ private slots:
     void judgeCurrentDrawingColor(Point curPoint);
     void on_pushButton_ClearDrawing_clicked();
     void on_pushButton_StartDrawing_clicked();
+    void saveFingerTopPoint(Point minPoint);
 private:
     Ui::handGesture *ui;
 
@@ -74,7 +74,7 @@ private:
     string sCurrentFilepPath;
     vector<Point> approxCurve;
     Scalar sColor;
-    vector <DrawPointAttribute> DPA;
+    vector <DrawPoint> drawPoint;
     vector< vector<Point> > mContoursTemp;
     vector<int> mResultArray;
     vector< Mat > tempImage;
