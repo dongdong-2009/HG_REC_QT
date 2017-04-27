@@ -42,19 +42,20 @@ private slots:
     void findConvexityDefects(vector<Point>& contour, vector<int>& hull, vector<ConvexityDefect>& convexDefects);
     void init_hand_template(void);
     void hand_template_match(void);
-    int RecogniseResult(vector<int> iArray);
+    int  filterRecogniseResult(vector<int> iArray);
     void binary_image_process(Mat src);
     void on_pushButton_startRecognize_clicked();
     void on_pushButton_DirectionRecognize_clicked();
     void handRecogniseResult();
     void judgeCurrentDrawingColor(Point curPoint);
-    void on_pushButton_ClearDrawing_clicked();
-    void on_pushButton_StartDrawing_clicked();
     void saveFingerTopPoint(Point minPoint);
+    void control_images();
+    void resetFuntion();
 private:
     Ui::handGesture *ui;
 
     QTimer *timer;
+    QTimer *timer1;
 
     VideoCapture cap;
     cv::Mat frame;
@@ -68,6 +69,10 @@ private:
     vector< vector<Point> > filterContours;
     vector< Vec4i > hierarchy;
     vector< Point > hull;
+
+    string curDirection;
+    mpBOOL m_bMotionFlag;
+    int item;
 
     vector<Point2f> centerArray;
     vector<Point2f> cornerArray;

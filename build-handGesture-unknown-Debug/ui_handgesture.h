@@ -34,32 +34,30 @@ public:
     QPushButton *pushButton_startRecognize;
     QPushButton *pushButton_captureImage;
     QPushButton *pushButton_DirectionRecognize;
-    QPushButton *pushButton_StartDrawing;
-    QPushButton *pushButton_ClearDrawing;
 
     void setupUi(QWidget *handGesture)
     {
         if (handGesture->objectName().isEmpty())
             handGesture->setObjectName(QString::fromUtf8("handGesture"));
-        handGesture->resize(687, 400);
+        handGesture->resize(900, 518);
         groupBox = new QGroupBox(handGesture);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 650, 260));
+        groupBox->setGeometry(QRect(10, 10, 881, 375));
         label_srcScreen = new QLabel(groupBox);
         label_srcScreen->setObjectName(QString::fromUtf8("label_srcScreen"));
-        label_srcScreen->setGeometry(QRect(20, 20, 320, 240));
+        label_srcScreen->setGeometry(QRect(20, 20, 400, 350));
         label_cvtScreen = new QLabel(groupBox);
         label_cvtScreen->setObjectName(QString::fromUtf8("label_cvtScreen"));
-        label_cvtScreen->setGeometry(QRect(350, 20, 320, 240));
+        label_cvtScreen->setGeometry(QRect(440, 30, 400, 350));
         groupBox_2 = new QGroupBox(handGesture);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(30, 290, 171, 90));
+        groupBox_2->setGeometry(QRect(20, 420, 171, 90));
         label_result = new QLabel(groupBox_2);
         label_result->setObjectName(QString::fromUtf8("label_result"));
         label_result->setGeometry(QRect(0, 20, 151, 61));
         groupBox_3 = new QGroupBox(handGesture);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
-        groupBox_3->setGeometry(QRect(220, 280, 321, 111));
+        groupBox_3->setGeometry(QRect(230, 410, 321, 111));
         pushButton_openCamera = new QPushButton(groupBox_3);
         pushButton_openCamera->setObjectName(QString::fromUtf8("pushButton_openCamera"));
         pushButton_openCamera->setGeometry(QRect(20, 30, 140, 30));
@@ -72,12 +70,6 @@ public:
         pushButton_DirectionRecognize = new QPushButton(groupBox_3);
         pushButton_DirectionRecognize->setObjectName(QString::fromUtf8("pushButton_DirectionRecognize"));
         pushButton_DirectionRecognize->setGeometry(QRect(190, 30, 121, 31));
-        pushButton_StartDrawing = new QPushButton(handGesture);
-        pushButton_StartDrawing->setObjectName(QString::fromUtf8("pushButton_StartDrawing"));
-        pushButton_StartDrawing->setGeometry(QRect(550, 310, 111, 31));
-        pushButton_ClearDrawing = new QPushButton(handGesture);
-        pushButton_ClearDrawing->setObjectName(QString::fromUtf8("pushButton_ClearDrawing"));
-        pushButton_ClearDrawing->setGeometry(QRect(548, 350, 111, 31));
 
         retranslateUi(handGesture);
 
@@ -97,8 +89,6 @@ public:
         pushButton_startRecognize->setText(QApplication::translate("handGesture", "Digit Recognize", 0, QApplication::UnicodeUTF8));
         pushButton_captureImage->setText(QApplication::translate("handGesture", "Capture Image", 0, QApplication::UnicodeUTF8));
         pushButton_DirectionRecognize->setText(QApplication::translate("handGesture", "Dir Recognize", 0, QApplication::UnicodeUTF8));
-        pushButton_StartDrawing->setText(QApplication::translate("handGesture", "Strat Drawing", 0, QApplication::UnicodeUTF8));
-        pushButton_ClearDrawing->setText(QApplication::translate("handGesture", "Clear Drawing", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
