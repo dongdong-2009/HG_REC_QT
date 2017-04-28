@@ -50,9 +50,9 @@ static const uint qt_meta_data_handGesture[] = {
      703,   12,   12,   12, 0x08,
      746,   12,   12,   12, 0x08,
      777,  768,   12,   12, 0x08,
-     818,  809,   12,   12, 0x08,
-     844,   12,   12,   12, 0x08,
-     861,   12,   12,   12, 0x08,
+     823,  809,   12,   12, 0x08,
+     856,   12,   12,   12, 0x08,
+     873,   12,   12,   12, 0x08,
 
        0        // eod
 };
@@ -79,7 +79,7 @@ static const char qt_meta_stringdata_handGesture[] = {
     "on_pushButton_DirectionRecognize_clicked()\0"
     "handRecogniseResult()\0curPoint\0"
     "judgeCurrentDrawingColor(Point)\0"
-    "minPoint\0saveFingerTopPoint(Point)\0"
+    "minPoint,flag\0saveFingerTopPoint(Point,mpBOOL)\0"
     "control_images()\0resetFuntion()\0"
 };
 
@@ -111,7 +111,7 @@ void handGesture::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 17: _t->on_pushButton_DirectionRecognize_clicked(); break;
         case 18: _t->handRecogniseResult(); break;
         case 19: _t->judgeCurrentDrawingColor((*reinterpret_cast< Point(*)>(_a[1]))); break;
-        case 20: _t->saveFingerTopPoint((*reinterpret_cast< Point(*)>(_a[1]))); break;
+        case 20: _t->saveFingerTopPoint((*reinterpret_cast< Point(*)>(_a[1])),(*reinterpret_cast< mpBOOL(*)>(_a[2]))); break;
         case 21: _t->control_images(); break;
         case 22: _t->resetFuntion(); break;
         default: ;

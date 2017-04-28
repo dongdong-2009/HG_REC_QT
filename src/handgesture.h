@@ -13,7 +13,7 @@
 #include <QPalette>
 
 #include "common.h"
-
+#include "drawdialog.h"
 
 namespace Ui {
 class handGesture;
@@ -48,21 +48,26 @@ private slots:
     void on_pushButton_DirectionRecognize_clicked();
     void handRecogniseResult();
     void judgeCurrentDrawingColor(Point curPoint);
-    void saveFingerTopPoint(Point minPoint);
+    void saveFingerTopPoint(Point minPoint,mpBOOL flag);
     void control_images();
     void resetFuntion();
+
+
 private:
     Ui::handGesture *ui;
 
     QTimer *timer;
     QTimer *timer1;
+    drawDialog m_drawDialog;
+
 
     VideoCapture cap;
     cv::Mat frame;
     cv::Mat captureframe;
     cv::Mat binImage;
-    cv::Mat dstImage;
     cv::Mat maskImage;
+    cv::Mat dstImage;
+
     int centerNum=0;
     int recResult;
     vector< vector<Point> > contours;
@@ -72,6 +77,7 @@ private:
 
     string curDirection;
     mpBOOL m_bMotionFlag;
+    mpBOOL m_bPointAttribute;
     int item;
 
     vector<Point2f> centerArray;

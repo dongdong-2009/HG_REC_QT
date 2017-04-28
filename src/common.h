@@ -74,11 +74,11 @@ using namespace cv;
 #define QFILEDIALOG_SUPPORTTYPE     "Image File(*.jpg *png)"
 #define QFILEDIALOG_CURRENTPATH     "."
 
-#define DELAY_DISPLAY_INTERVAL 50
-#define DIRECTION_DISPLAY_INTERVAL 2000
+#define DELAY_DISPLAY_INTERVAL 100
+#define DIRECTION_DISPLAY_INTERVAL 3000
 
 #define TEMPLATE_NUMS   (10)
-#define IMAGE_NUMS      (9)
+#define IMAGE_NUMS      (10)
 
 #define HANDGESTURE_START1_CMD   (1)
 #define HANDGESTURE_START2_CMD   (7)
@@ -185,6 +185,7 @@ struct DrawPoint
 {
     Point  point;
     Scalar color;
+    mpBOOL flag;
 };
 
 /**

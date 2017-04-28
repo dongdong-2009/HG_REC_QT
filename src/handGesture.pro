@@ -14,12 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         handgesture.cpp \
-    common.cpp
+    common.cpp \
+    drawdialog.cpp
 
 HEADERS  += handgesture.h \
-    common.h
+    common.h \
+    drawdialog.h
 
-FORMS    += handgesture.ui
+FORMS    += handgesture.ui \
+    drawdialog.ui
 
 LIBS    += -L /usr/local/lib/ \
         -lopencv_core -lopencv_features2d \
@@ -28,3 +31,6 @@ LIBS    += -L /usr/local/lib/ \
         -lopencv_objdetect
 
 QMAKE_CXXFLAGS += -std=c++11 -O2 -w -static
+
+RESOURCES += \
+    resource.qrc
