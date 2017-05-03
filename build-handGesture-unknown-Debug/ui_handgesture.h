@@ -42,13 +42,13 @@ public:
         handGesture->resize(900, 518);
         groupBox = new QGroupBox(handGesture);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 881, 375));
+        groupBox->setGeometry(QRect(10, 10, 871, 360));
         label_srcScreen = new QLabel(groupBox);
         label_srcScreen->setObjectName(QString::fromUtf8("label_srcScreen"));
         label_srcScreen->setGeometry(QRect(20, 20, 400, 350));
         label_cvtScreen = new QLabel(groupBox);
         label_cvtScreen->setObjectName(QString::fromUtf8("label_cvtScreen"));
-        label_cvtScreen->setGeometry(QRect(440, 30, 400, 350));
+        label_cvtScreen->setGeometry(QRect(440, 20, 400, 350));
         groupBox_2 = new QGroupBox(handGesture);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setGeometry(QRect(20, 420, 171, 90));
@@ -57,7 +57,7 @@ public:
         label_result->setGeometry(QRect(0, 20, 151, 61));
         groupBox_3 = new QGroupBox(handGesture);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
-        groupBox_3->setGeometry(QRect(230, 410, 321, 111));
+        groupBox_3->setGeometry(QRect(230, 400, 321, 101));
         pushButton_openCamera = new QPushButton(groupBox_3);
         pushButton_openCamera->setObjectName(QString::fromUtf8("pushButton_openCamera"));
         pushButton_openCamera->setGeometry(QRect(20, 30, 140, 30));

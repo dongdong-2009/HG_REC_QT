@@ -11,7 +11,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QPalette>
-
+#include <QGraphicsProxyWidget>
+#include <QGraphicsView>
 #include "common.h"
 #include "drawdialog.h"
 
@@ -59,12 +60,13 @@ private:
     QTimer *timer;
     QTimer *timer1;
     drawDialog m_drawDialog;
-
-
+    QGraphicsScene *scene;
+    QGraphicsProxyWidget *w;
     VideoCapture cap;
     cv::Mat frame;
     cv::Mat captureframe;
     cv::Mat binImage;
+
     cv::Mat maskImage;
     cv::Mat dstImage;
 
