@@ -32,7 +32,7 @@ private slots:
     void on_pushButton_openCamera_clicked();
     void readFrame();
     void handGestureDrawing();
-    void sourceImagePreprocessing(Mat original);
+    void sourceImagePreprocessing();
     void ComputeHandGestureCenterPoint(vector<Point2f> & center);
     void ComputeHandGestureMaxCenterRadius(vector<Point2f> center,float &radius);
     void RecogniseHandGestureSeq(vector<Point2f> &ptArr, float width, float height, string &result);
@@ -63,12 +63,14 @@ private:
     QGraphicsScene *scene;
     QGraphicsProxyWidget *w;
     VideoCapture cap;
+
     cv::Mat frame;
     cv::Mat captureframe;
     cv::Mat binImage;
 
     cv::Mat maskImage;
     cv::Mat dstImage;
+    cv::Mat srcImage;
 
     int centerNum=0;
     int recResult;

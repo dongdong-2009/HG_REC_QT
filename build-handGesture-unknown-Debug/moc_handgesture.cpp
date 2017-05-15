@@ -33,26 +33,26 @@ static const uint qt_meta_data_handGesture[] = {
       13,   12,   12,   12, 0x08,
       48,   12,   12,   12, 0x08,
       60,   12,   12,   12, 0x08,
-      90,   81,   12,   12, 0x08,
-     127,  120,   12,   12, 0x08,
-     189,  175,   12,   12, 0x08,
-     273,  247,   12,   12, 0x08,
-     335,   12,   12,   12, 0x08,
-     365,  361,  356,   12, 0x08,
-     384,   12,   12,   12, 0x08,
-     406,   12,   12,   12, 0x08,
-     470,  443,   12,   12, 0x08,
-     545,   12,   12,   12, 0x08,
-     566,   12,   12,   12, 0x08,
-     599,  592,  588,   12, 0x08,
-     638,  634,   12,   12, 0x08,
-     664,   12,   12,   12, 0x08,
-     703,   12,   12,   12, 0x08,
-     746,   12,   12,   12, 0x08,
-     777,  768,   12,   12, 0x08,
-     823,  809,   12,   12, 0x08,
-     856,   12,   12,   12, 0x08,
-     873,   12,   12,   12, 0x08,
+      81,   12,   12,   12, 0x08,
+     115,  108,   12,   12, 0x08,
+     177,  163,   12,   12, 0x08,
+     261,  235,   12,   12, 0x08,
+     323,   12,   12,   12, 0x08,
+     353,  349,  344,   12, 0x08,
+     372,   12,   12,   12, 0x08,
+     394,   12,   12,   12, 0x08,
+     458,  431,   12,   12, 0x08,
+     533,   12,   12,   12, 0x08,
+     554,   12,   12,   12, 0x08,
+     587,  580,  576,   12, 0x08,
+     626,  622,   12,   12, 0x08,
+     652,   12,   12,   12, 0x08,
+     691,   12,   12,   12, 0x08,
+     734,   12,   12,   12, 0x08,
+     765,  756,   12,   12, 0x08,
+     811,  797,   12,   12, 0x08,
+     844,   12,   12,   12, 0x08,
+     861,   12,   12,   12, 0x08,
 
        0        // eod
 };
@@ -60,8 +60,8 @@ static const uint qt_meta_data_handGesture[] = {
 static const char qt_meta_stringdata_handGesture[] = {
     "handGesture\0\0on_pushButton_openCamera_clicked()\0"
     "readFrame()\0handGestureDrawing()\0"
-    "original\0sourceImagePreprocessing(Mat)\0"
-    "center\0ComputeHandGestureCenterPoint(vector<Point2f>&)\0"
+    "sourceImagePreprocessing()\0center\0"
+    "ComputeHandGestureCenterPoint(vector<Point2f>&)\0"
     "center,radius\0"
     "ComputeHandGestureMaxCenterRadius(vector<Point2f>,float&)\0"
     "ptArr,width,height,result\0"
@@ -92,7 +92,7 @@ void handGesture::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->on_pushButton_openCamera_clicked(); break;
         case 1: _t->readFrame(); break;
         case 2: _t->handGestureDrawing(); break;
-        case 3: _t->sourceImagePreprocessing((*reinterpret_cast< Mat(*)>(_a[1]))); break;
+        case 3: _t->sourceImagePreprocessing(); break;
         case 4: _t->ComputeHandGestureCenterPoint((*reinterpret_cast< vector<Point2f>(*)>(_a[1]))); break;
         case 5: _t->ComputeHandGestureMaxCenterRadius((*reinterpret_cast< vector<Point2f>(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2]))); break;
         case 6: _t->RecogniseHandGestureSeq((*reinterpret_cast< vector<Point2f>(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< float(*)>(_a[3])),(*reinterpret_cast< string(*)>(_a[4]))); break;

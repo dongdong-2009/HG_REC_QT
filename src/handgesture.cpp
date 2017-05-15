@@ -55,7 +55,10 @@ void handGesture::readFrame()
         cout << "frame is empty! "<<endl;
         return ;
     }
-    Mat original = frame.clone();    // Clone the current frame:
+    srcImage = frame.clone();    // Clone the current frame:
+
+    sourceImagePreprocessing();
+    handGestureDrawing();
 
     if(EOperation == EDIRRECOGNIZE)
     {
@@ -63,16 +66,16 @@ void handGesture::readFrame()
     }
     else
     {
-        QImage scrImage=QImage((const uchar*)original.data,original.cols,original.rows,QImage::Format_RGB888).rgbSwapped();
+        QImage scrImage=QImage((const uchar*)srcImage.data,srcImage.cols,srcImage.rows,QImage::Format_RGB888).rgbSwapped();
         scrImage = scrImage.scaled(400, 350);
         ui->label_srcScreen->setPixmap(QPixmap::fromImage(scrImage));
     }
-    sourceImagePreprocessing(original);
-    handGestureDrawing();
+/*
     if(EOperation == EDIGITRECOGNIZE)
     {
         hand_template_match();
     }
+    */
 }
 
 void handGesture::resetFuntion()
@@ -175,7 +178,7 @@ void handGesture::init_hand_template(void)
       imshow("watershed", binImage);
  }
 
-void handGesture::sourceImagePreprocessing(Mat srcImage)
+void handGesture::sourceImagePreprocessing()
 {
     medianBlur(srcImage, srcImage, 5); // 中值滤波: 可以很好的去除椒盐噪声
     // cvt to HSV color
@@ -262,6 +265,7 @@ void handGesture::handRecogniseResult()
             if((!drawPoint[i].flag && drawPoint[i+1].flag) || (drawPoint[i].flag && drawPoint[i+1].flag))
             {
                 line(dstImage, drawPoint[i].point,drawPoint[i+1].point, drawPoint[i+1].color, 5, CV_AA);
+                line(srcImage, drawPoint[i].point,drawPoint[i+1].point, drawPoint[i+1].color, 5, CV_AA);
             }
         }
     }
@@ -318,18 +322,22 @@ void handGesture::handGestureDrawing()
 
     if(EOperation == EDIGITRECOGNIZE)
     {
-        rectangle(dstImage,
+        for(int m=0;m<2;m++)
+        {
+            Mat targetImage=m < 1? dstImage:srcImage;
+        rectangle(targetImage,
                   Point(HANDGESTURE_RED_MIN_POINT,HANDGESTURE_MONITOR_MINHIGH_POINT),
                   Point(HANDGESTURE_RED_MAX_POINT,HANDGESTURE_MONITOR_MAXHIGH_POINT),
                   Scalar(0,0,255), CV_FILLED, CV_AA,0);//red
-        rectangle(dstImage,
+        rectangle(targetImage,
                   Point(HANDGESTURE_GREEN_MIN_POINT,HANDGESTURE_MONITOR_MINHIGH_POINT),
                   Point(HANDGESTURE_GREEN_MAX_POINT,HANDGESTURE_MONITOR_MAXHIGH_POINT),
                   Scalar(0,255,0), CV_FILLED, CV_AA,0);//green
-        rectangle(dstImage,
+        rectangle(targetImage,
                   Point(HANDGESTURE_BLUE_MIN_POINT,HANDGESTURE_MONITOR_MINHIGH_POINT),
                   Point(HANDGESTURE_BLUE_MAX_POINT,HANDGESTURE_MONITOR_MAXHIGH_POINT),
                   Scalar(255,0,0), CV_FILLED, CV_AA,0);//blue
+        }
     }
 
     //via Center Point draw a rect box
@@ -392,18 +400,12 @@ void handGesture::handGestureDrawing()
                 judgeCurrentDrawingColor(convexDefects[i].start);
                 if(convexDefects[i].start.y < minPoint.y)  minPoint = convexDefects[i].start;//get hand min point
             }
-
             saveFingerTopPoint(minPoint,m_bPointAttribute);
-            /*if(HANDGESTURE_STOP_CMD == recResult)
-              {
-                  drawPoint.clear();
-              }*/
             m_bPointAttribute = mpTRUE;
         }
         circle(dstImage, minPoint, 10 ,Scalar(255, 255, 255), CV_FILLED);
         handRecogniseResult();//show the save point with line
     }
-
 
     cv::flip(dstImage,dstImage,1);//flip image
     //display in screen
