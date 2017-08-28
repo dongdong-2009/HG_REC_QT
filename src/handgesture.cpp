@@ -13,8 +13,8 @@ handGesture::handGesture(QWidget *parent) :
     ui->pushButton_DirectionRecognize->setDisabled(true);
     getCurrentFilePath();
 
-//    scene =new QGraphicsScene;
-  // QGraphicsProxyWidget *w =new ;
+    // scene =new QGraphicsScene;
+    // QGraphicsProxyWidget *w =new ;
     timer = new QTimer(this);
     timer1 = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this, SLOT(readFrame()) );
@@ -66,6 +66,7 @@ void handGesture::readFrame()
     }
     else
     {
+        cv::flip(srcImage,srcImage,1);//flip image
         QImage scrImage=QImage((const uchar*)srcImage.data,srcImage.cols,srcImage.rows,QImage::Format_RGB888).rgbSwapped();
         scrImage = scrImage.scaled(400, 350);
         ui->label_srcScreen->setPixmap(QPixmap::fromImage(scrImage));
@@ -196,11 +197,11 @@ void handGesture::sourceImagePreprocessing()
         inRange(frameHSV, Scalar(0,43,46), Scalar(10,255,255), dstTemp1);//split red color
         inRange(frameHSV, Scalar(156,43,46), Scalar(180,255,255), dstTemp2);
         bitwise_or(dstTemp1, dstTemp2, maskImage);
-        //inRange(frameHSV, Scalar(0,30,30), Scalar(40,170,256), maskImage);
     }
     else
     {
         inRange(frameHSV, Scalar(26,43,46), Scalar(34,255,255), maskImage);//yellow
+        //inRange(frameHSV, Scalar(0,0,221), Scalar(180,30,255), maskImage);//black
     }
     //去噪声，使手形更加清晰
     Mat element = getStructuringElement(MORPH_RECT, Size(7,7));
@@ -306,7 +307,7 @@ void handGesture::handGestureDrawing()
        // if(contArea/imageArea > 0.015) filterContours.push_back(contours[i]);
         if(EOperation == EDIGITRECOGNIZE)
         {
-            if(contArea>1000) filterContours.push_back(contours[i]);
+            if(contArea>3000) filterContours.push_back(contours[i]);
         }
         else
         {
