@@ -71,12 +71,6 @@ void handGesture::readFrame()
         scrImage = scrImage.scaled(400, 350);
         ui->label_srcScreen->setPixmap(QPixmap::fromImage(scrImage));
     }
-/*
-    if(EOperation == EDIGITRECOGNIZE)
-    {
-        hand_template_match();
-    }
-    */
 }
 
 void handGesture::resetFuntion()
@@ -194,9 +188,11 @@ void handGesture::sourceImagePreprocessing()
         /*inRange(frameHSV, Scalar(0,30,30), Scalar(40,170,256), dstTemp1);//split skin color
         inRange(frameHSV, Scalar(156,30,30), Scalar(180,170,256), dstTemp2);
         bitwise_or(dstTemp1, dstTemp2, maskImage);*/
-        inRange(frameHSV, Scalar(0,43,46), Scalar(10,255,255), dstTemp1);//split red color
+        /*inRange(frameHSV, Scalar(0,43,46), Scalar(10,255,255), dstTemp1);//split red color
         inRange(frameHSV, Scalar(156,43,46), Scalar(180,255,255), dstTemp2);
-        bitwise_or(dstTemp1, dstTemp2, maskImage);
+        bitwise_or(dstTemp1, dstTemp2, maskImage);*/
+
+        inRange(frameHSV, Scalar(26,43,46), Scalar(34,255,255), maskImage);//yellow
     }
     else
     {
@@ -210,6 +206,7 @@ void handGesture::sourceImagePreprocessing()
     //morphologyEx(maskImage, maskImage, MORPH_BLACKHAT, element);
     dilate(maskImage, maskImage, element);
     morphologyEx(maskImage, maskImage, MORPH_CLOSE, element);
+    //imshow("dstImage",maskImage);
     srcImage.copyTo(dstImage, maskImage);//clone after preprocess image
 }
 
